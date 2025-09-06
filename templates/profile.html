@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    <div class="card">
+        <div class="card-header">
+            <h2>My Profile</h2>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label"><strong>Username:</strong></label>
+                <p class="form-control-plaintext">{{ current_user.username }}</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"><strong>Registered Role:</strong></label>
+                <p class="form-control-plaintext">{{ current_user.role }}</p>
+            </div>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}AI Priority View{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Project: {{ project.name }}</h2>
+        <button id="calculate-priority" class="btn btn-lg btn-success" data-project-id="{{ project.id }}">Calculate AI Priority 🚀</button>
+    </div>
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('project_board', project_id=project.id) }}">Kanban Board</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('priority_view', project_id=project.id) }}">AI Priority View</a>
+        </li>
+    </ul>
+
+    <div class="priority-board">
+        {% for member in project.members %}
+        <div class="priority-column">
+            <h5 class="column-title">{{ member.username }} ({{member.role}})</h5>
+            <div class="tasks-container" id="user-{{ member.id }}-tasks">
+                {% for task in member.tasks|sort(attribute='priority', reverse=True) %}
+                    {% if task.project_id == project.id and task.status != 'Done' %}
+                    <div class="task-card">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('task_detail', task_id=task.id) }}" class="task-link"><span>{{ task.content }}</span></a>
+                            <span class="badge bg-danger">Priority: {{ task.priority }}</span>
+                        </div>
+                         <hr class="my-2">
+                        <span class="badge bg-info">{{ task.status }}</span>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block title %}Task Details{% endblock %}
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('project_board', project_id=task.project.id) }}">{{ task.project.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Task #{{ task.id }}</li>
+        </ol>
+    </nav>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>{{ task.content }}</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Status:</strong> <span class="badge bg-info">{{ task.status }}</span></p>
+            <p><strong>Assigned to:</strong> <span class="badge bg-primary">{{ task.assignee.username }} ({{ task.assignee.role }})</span></p>
+            <p><strong>Due Date:</strong> {{ task.due_date.strftime('%A, %B %d, %Y') }}</p>
+        </div>
+    </div>
+
+    <h4 class="mb-3">Discussion</h4>
+    <div class="comments-section mb-4">
+        {% for comment in task.comments|sort(attribute='timestamp') %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <p class="card-text">{{ comment.content }}</p>
+                <footer class="blockquote-footer">
+                    {{ comment.author.username }} on <cite title="Source Title">{{ comment.timestamp.strftime('%Y-%m-%d @ %H:%M') }}</cite>
+                </footer>
+            </div>
+        </div>
+        {% else %}
+        <p>No comments yet. Start the conversation!</p>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Add a Comment</h5>
+            <form method="POST" action="{{ url_for('add_comment', task_id=task.id) }}">
+                <div class="mb-3">
+                    <textarea class="form-control" name="content" rows="3" placeholder="Type your comment here..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

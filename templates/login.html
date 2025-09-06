@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block title %}Login / Register{% endblock %}
+{% block content %}
+<div class="auth-container">
+    <ul class="nav nav-tabs nav-fill mb-3" id="authTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button" role="tab" aria-controls="login-pane" aria-selected="true">Login</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-pane" type="button" role="tab" aria-controls="register-pane" aria-selected="false">Register</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="authTabsContent">
+        <div class="tab-pane fade show active" id="login-pane" role="tabpanel" aria-labelledby="login-tab">
+            <h2 class="text-center mb-4">Login to Your Account</h2>
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="mb-3">
+                    <label for="login_username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="login_username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="login_password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="login_password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Login</button>
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="register-pane" role="tabpanel" aria-labelledby="register-tab">
+            <h2 class="text-center mb-4">Register New Account</h2>
+            <form method="POST" action="{{ url_for('register') }}">
+                <div class="mb-3">
+                    <label for="reg_username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="reg_username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="reg_password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="reg_password" name="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="reg_role" class="form-label">What is your role?</label>
+                    <select class="form-select" name="role" id="reg_role" required>
+                        <option value="" selected disabled>Select your role...</option>
+                        <option value="Backend Developer">Backend Developer</option>
+                        <option value="Frontend Developer">Frontend Developer</option>
+                        <option value="Designer">Designer</option>
+                        <option value="Project Manager">Project Manager</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
